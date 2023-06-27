@@ -1,0 +1,97 @@
+#!/usr/bin/env nodo
+
+/**
+* Dependencias del módulo.
+*/
+
+var  aplicación  =  requerir ( '../aplicación' ) ;
+var  debug  =  require ( 'debug' ) ( 'proyecto-veterinaria:server' ) ;
+var  http  =  requerir ( 'http' ) ;
+
+/**
+* Obtenga el puerto del entorno y almacene en Express.
+*/
+
+var  port  =  normalizePort ( proceso . env . PUERTO  ||  '3000' ) ;
+aplicación_conjunto ( 'puerto' ,  puerto ) ;
+
+/**
+* Crear servidor HTTP.
+*/
+
+var  servidor  =  http . crearServidor ( aplicación ) ;
+
+/**
+* Escuche en el puerto provisto, en todas las interfaces de red.
+*/
+
+servidor_escuchar ( puerto ) ;
+servidor_on ( 'error' ,  onError ) ;
+servidor_en ( 'escuchando' ,  enEscuchando ) ;
+
+/**
+* Normalizar un puerto en un número, cadena o falso.
+*/
+
+funciónnormalizarPuerto ( val ) 
+{
+   puertovar =  parseInt ( val ,  10 ) ;
+
+  if  ( isNaN ( puerto ) )  {
+    // tubería con nombre
+     valorderetorno ;
+  }
+
+  si  ( puerto  >=  0 )
+   {
+    // número de puerto
+     puertoderetorno ;
+  }
+
+  devolverfalso ;
+}
+
+/**
+* Detector de eventos para el evento de "error" del servidor HTTP.
+*/
+
+funciónonError ( error )
+ {
+  if  ( error . syscall  !==  'escuchar' )  {
+    lanzarerror ;
+  }
+
+  var  bind  =  tipodepuerto ===  'cadena'
+    ? 'Tubería'  +  puerto
+    : 'Puerto'  +  puerto ;
+
+  // manejar errores de escucha específicos con mensajes amistosos
+  interruptor  ( error . código ) 
+   {
+    caso  
+    'EACCES' 
+      consola_error ( bind  +  'requiere privilegios elevados' ) ;
+      proceso_salida ( 1 ) ;
+      romper ;
+    caso 
+    'EADDRINUSE'
+      consola_error ( bind  +  'ya está en uso' ) ;
+      proceso_salida ( 1 ) ;
+      romper ;
+    predeterminado :
+      lanzarerror ;
+  }
+}
+
+/**
+* Detector de eventos para el evento de "escucha" del servidor HTTP.
+*/
+
+funciónalEscuchar ( ) 
+ {
+  var  dirección  =  servidor . dirección ( ) ;
+  var  bind  =  typeof  addr  ===  'cadena'
+    ? 'tubería'  +  dirección
+    : 'puerto'  +  dirección . puerto ;
+  depurar ( 'Escuchar en'  +  enlazar ) ;
+}
